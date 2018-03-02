@@ -1,5 +1,6 @@
 package unah.proyecto.aeo.aplicacionagendaelectronicaoriental.clasesJAVAMelvin;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -8,23 +9,30 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import unah.proyecto.aeo.aplicacionagendaelectronicaoriental.ConexionSQLiteHelper;
 import unah.proyecto.aeo.aplicacionagendaelectronicaoriental.R;
+import unah.proyecto.aeo.aplicacionagendaelectronicaoriental.clasesJAVASheyli.PerfilDeLaOrganizacion;
 
 public class ListaDeContactos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ArrayList<PerfilBreve> listaOrganizaciones;
     ConexionSQLiteHelper conn;
     private TextView numero_telefono;
+    private TextView nombreOrganizacion;
+
+     private ImageView imageViewPerfilBreve;
 
 
     @Override
@@ -33,7 +41,6 @@ public class ListaDeContactos extends AppCompatActivity
         setContentView(R.layout.activity_lista_de_contactos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -45,13 +52,14 @@ public class ListaDeContactos extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        String categoria="Centros Educativos";
-
         numero_telefono = (TextView)findViewById(R.id.numero_telefono_organizacion);
+        imageViewPerfilBreve = (ImageView) findViewById(R.id.imagen_organizacion);
+        nombreOrganizacion = (TextView)findViewById(R.id.nombre_organizacion);
+
 
         //Conexión a la base de datos
         conn = new ConexionSQLiteHelper(this,"bdaeo",null,1);
-        conn.getReadableDatabase().setForeignKeyConstraintsEnabled(true);
+
 
         //Inicializacion del array
         listaOrganizaciones = new ArrayList<PerfilBreve>();
@@ -65,6 +73,8 @@ public class ListaDeContactos extends AppCompatActivity
 
         //Llamada al método para consultar la base de datos
         consultarListaContactos();
+
+
 
         //Declaracion y seteo del adaptador al contenedor
         AdaptadorPerfilBreve adaptadorPerfilBreve = new AdaptadorPerfilBreve(listaOrganizaciones);
@@ -141,7 +151,7 @@ public class ListaDeContactos extends AppCompatActivity
         PerfilBreve perfilContacto = null;
 
         //Asignar la consulta sql
-        Cursor cursor =  db.rawQuery("SELECT nombre_organizacion, imagen, numero_fijo, direccion FROM CONTACTOS",null);
+        Cursor cursor =  db.rawQuery("SELECT nombre_organizacion, imagen, numero_fijo, direccion, id_contacto FROM CONTACTOS WHERE id_categoria=1",null);
 
        //se obtienen los objetos de la consulta y se asignan a los componentes visuales
         while (cursor.moveToNext()){
@@ -150,12 +160,15 @@ public class ListaDeContactos extends AppCompatActivity
             perfilContacto.setImagen(cursor.getInt(1));
             perfilContacto.setNumeroTelefono(cursor.getString(2));
             perfilContacto.setDireccion(cursor.getString(3));
+            perfilContacto.setId(cursor.getInt(4));
 
             //se añade los datos al array
             listaOrganizaciones.add(perfilContacto);
 
         }
     }
+
+
 
 
 }

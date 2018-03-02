@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import unah.proyecto.aeo.aplicacionagendaelectronicaoriental.ConexionSQLiteHelper;
 import unah.proyecto.aeo.aplicacionagendaelectronicaoriental.R;
 import unah.proyecto.aeo.aplicacionagendaelectronicaoriental.clasesJAVASheyli.PerfilDeLaOrganizacion;
 
@@ -20,6 +21,7 @@ public class ViewHolderPerfilBreve extends RecyclerView.ViewHolder  implements V
     TextView nombrePerfilBreve;
     TextView numeroTelefonoPerfilBreve;
     TextView direccionPerfilBreve;
+    TextView id_perfilBreve;
     Context context;
     int position;
 
@@ -31,6 +33,7 @@ public class ViewHolderPerfilBreve extends RecyclerView.ViewHolder  implements V
         nombrePerfilBreve = (TextView) itemView.findViewById(R.id.nombre_organizacion);
         numeroTelefonoPerfilBreve = (TextView) itemView.findViewById(R.id.numero_telefono_organizacion);
         direccionPerfilBreve = (TextView) itemView.findViewById(R.id.direccion_organizacion);
+        id_perfilBreve = (TextView) itemView.findViewById(R.id.id_Deorganizacion);
     }
 
     public void onClick(View v) {
@@ -38,9 +41,8 @@ public class ViewHolderPerfilBreve extends RecyclerView.ViewHolder  implements V
             case R.id.imagen_organizacion:
 
                 Intent intent = new Intent(context,PerfilDeLaOrganizacion.class);
-                intent.putExtra("nombre_categoria",nombrePerfilBreve.getText().toString());
+                intent.putExtra("id_organizacion",id_perfilBreve.getText().toString());
                 context.startActivity(intent);
-
         }
 
     }

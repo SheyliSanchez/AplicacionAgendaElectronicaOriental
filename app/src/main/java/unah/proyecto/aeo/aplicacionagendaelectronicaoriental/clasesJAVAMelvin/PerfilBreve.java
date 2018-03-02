@@ -11,18 +11,28 @@ public class PerfilBreve implements Serializable{
     private int imagen;
     private String numeroTelefono;
     private String direccion;
+    private int id;
     int estado;
 
-    public PerfilBreve(String nombre, int imagen, String numeroTelefono, String direccion, int estado) {
+    public PerfilBreve(String nombre, int imagen, String numeroTelefono, String direccion,int id, int estado) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.numeroTelefono = numeroTelefono;
         this.direccion = direccion;
+        this.id = id;
         this.estado = estado;
     }
 
     public PerfilBreve(){
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
